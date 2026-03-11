@@ -62,8 +62,13 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    sh "${DOCKER_CMD} login -u leevivl -p ${DOCKERHUB_CREDENTIALS_ID}"
-                    sh "${DOCKER_CMD} push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                    withCredentials([usernamePassword(credentialsId: 'docker-pat',
+                                                      usernameVariable: 'DOCKER_USER',
+                                                      passwordVariable: 'DOCKER_PASS')]) {
+                        sh "${DOCKER_CMD} login -u ${DOCKER_USER} -p ${DOCKER_PASS}"
+                        sh "${DOCKER_CMD} push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                        sh "${DOCKER_CMD} logout"
+                    }
                 }
             }
         }
