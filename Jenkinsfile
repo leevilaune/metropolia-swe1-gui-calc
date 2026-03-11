@@ -62,7 +62,7 @@ pipeline {
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    sh "${DOCKER_CMD} login -u <your-docker-username> -p ${DOCKERHUB_CREDENTIALS_ID}"
+                    sh "${DOCKER_CMD} login -u leevivl -p ${DOCKERHUB_CREDENTIALS_ID}"
                     sh "${DOCKER_CMD} push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
